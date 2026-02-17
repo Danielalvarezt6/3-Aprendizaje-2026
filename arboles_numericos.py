@@ -7,11 +7,12 @@
       
 """
 
-__author__ = "Julio Waissman"
-__date__ = "enero 2025"
+__author__ = "Daniel Alvarez"
+__date__ = "Febrero 2026"
 
 
 import math
+import random
 from collections import Counter
 
 def entrena_arbol(datos, target, clase_default, 
@@ -37,7 +38,7 @@ def entrena_arbol(datos, target, clase_default,
     min_ejemplos: int
         El número mínimo de ejemplos para considerar un nodo como hoja
     variables_seleccionadas: list(str)
-        Lista de variables a considerar. Si es None, se consideran todas las variables, esto apica para árboles aleagtorios y lo tendrán que implementar en la tarea.
+        Lista de variables a considerar. Si es None, se consideran todas las variables, esto apLica para árboles aleatorios y lo tendrán que implementar en la tarea.
         
     Regresa:
     --------
@@ -61,15 +62,32 @@ def entrena_arbol(datos, target, clase_default,
         
         return NodoN(terminal=True, clase_default=clase_default)
     
-    variable, valor = selecciona_variable_valor(
-        datos, target, atributos
-    )
+    # Si se especifica `variables_seleccionadas` podemos recibir:
+    #  None: usar todos los atributos
+    #  una lista de nombres: filtrar los atributos a esa lista
+    #  un entero n: elegir aleatoriamente n atributos SOLO para este nodo
+    if variables_seleccionadas is not None:
+        if isinstance(variables_seleccionadas, int):
+            n = max(0, min(variables_seleccionadas, len(atributos)))
+            if n == 0:
+                return NodoN(terminal=True, clase_default=clase_default)
+            atributos = random.sample(atributos, n)
+        else:
+            atributos = [a for a in atributos if a in variables_seleccionadas]
+            if len(atributos) == 0:
+                return NodoN(terminal=True, clase_default=clase_default)
+    
+    variable, valor = selecciona_variable_valor(datos, target, atributos)
     nodo = NodoN(
         terminal=False, 
         clase_default=clase_default,
         atributo=variable, 
         valor=valor 
     )
+    
+    # Para los hijos: si es entero se pasa el mismo entero (selección aleatoria por nodo)
+    # Si es lista, se mantiene la misma lista para filtrar
+    # Si es None, se mantiene None
     nodo.hijo_menor = entrena_arbol(
         [d for d in datos if d[variable] < valor],
         target,
