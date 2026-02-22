@@ -3,6 +3,9 @@ Funciones para entrenamiento y predicción con Bosques Aleatorios (Random Forest
 Utiliza como base los árboles de decisión numéricos definidos en arboles_numericos.py.
 """
 
+__author__ = "Daniel Alvarez"
+__date__ = "Febrero 2026"
+
 import random
 from collections import Counter
 import arboles_numericos as an
