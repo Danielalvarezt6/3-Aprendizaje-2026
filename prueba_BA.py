@@ -121,3 +121,11 @@ bosque_final = ba.entrena_bosque(
 
 acc_final = ba.evalua_bosque(bosque_final, datos, target)
 print(f"Exactitud del bosque final sobre el conjunto de datos completo: {acc_final:.4f}")
+
+#CONCLUSIONES:
+#Con el dataset Iris, se puede observar que pocos arboles son suficientes para obtener un buen resultado,
+#la profundidad tiene un efecto significativo, se puede observar que a medida que se aumenta la profundidad, el resultado mejora ligeramente.
+#Al llegar a profundidad 4, se estabiliza y sin limite de profundidad, el a exactitud en entrenamiento es muy alta (≈99.2 %) 
+#pero en validación es algo menor (≈96.7 %), lo que apunta a un posible sobreajuste cuando los árboles son demasiado profundos.
+#En cuanto a las variables seleccionadas por nodo, se puede observar que no tiene un efecto significativo, aunque a medida que se aumenta el numero de variables, el resultado mejora ligeramente.
+#El bosque final entrenado con todos los datos (15 árboles, profundidad 4) obtiene una exactitud de 99.33 % sobre el conjunto completo.
